@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_SpiderHead : Boss
+public class Boss_SpiderHead : BossController
 {
     public float rotateSpeed;
     public float moveSpeed;

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class DoubleJump : MonoBehaviour
 {
-
     Rigidbody2D _rigidbody;
     PlayerController _player;
     public bool _isDoubleJumping;
@@ -19,7 +18,7 @@ public class DoubleJump : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            if (_player._nowState == PlayerController.state.jump && _isDoubleJumping == false)
+            /*if (_player._nowState == PlayerController.state.jump && _isDoubleJumping == false)
             {
                 _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
                 _rigidbody.AddForce(new Vector2(0, PlayerData.Instance._jumpForce * 0.8f));
@@ -27,7 +26,7 @@ public class DoubleJump : MonoBehaviour
                 _isDoubleJumping = true;
 
                 GameManager.Instance.GetBuff(Buff.BuffType.doubleJumpCD, 2f);
-            }
+            }*/
         }
     }
 }

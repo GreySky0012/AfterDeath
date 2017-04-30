@@ -21,7 +21,7 @@ public class CanvasManager : MonoBehaviour
         {
             player = GameObject.Find("Player");
         }
-        hpText.text = player.GetComponent<PlayerController>()._health.ToString() + "/" + PlayerData.Instance._maxHealth;
+        hpText.text = player.GetComponent<PlayerController>()._health.ToString() + "/" + player.GetComponent<PlayerController>()._maxHealth;
     }
 
 }
