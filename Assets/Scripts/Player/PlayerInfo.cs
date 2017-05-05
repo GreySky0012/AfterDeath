@@ -8,10 +8,12 @@ using UnityEngine;
 public class PlayerInfo{
 
     public Bag _bag;
+    public Weapon.WeaponType _weaponType;
 
-	public PlayerInfo()
+    public PlayerInfo()
     {
-        readData();
+        _bag = new Bag();
+        _weaponType = Weapon.WeaponType.gun;
     }
 
     public void resetCollectionData(int[] collections)

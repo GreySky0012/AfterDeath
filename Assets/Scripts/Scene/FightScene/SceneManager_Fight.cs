@@ -67,7 +67,7 @@ public class SceneManagerFight : SceneManager
 
     override protected void InstantiateHero()
     {
-        base.InstantiateHero();
+        _player = GameManager.Instance._player.InstantiateHero(true, _playerPosition);
         _player._hpSlider = _ui.transform.Find("HPBar").Find("Slider").GetComponent<Slider>();
         _player._hpSlider.maxValue = _player._maxHealth;
         _player._hpText = _ui.transform.Find("HPBar").Find("HPText").GetComponent<Text>();
@@ -87,5 +87,10 @@ public class SceneManagerFight : SceneManager
 
         GameObject go = Instantiate(_itemPrefab, _itemPos.position, Quaternion.identity) as GameObject;
         go.GetComponent<GetItemText>().UpdateText(content);
+    }
+
+    public void AddBuff(Buff.BuffType type)
+    {
+
     }
 }

@@ -23,7 +23,6 @@ public class SceneManager : MonoBehaviour {
 
     virtual protected void InstantiateHero()
     {
-        _player = GameManager.Instance._player.InstantiateHero(_playerPosition);
-        _player.InstantiateWeapon(Weapon.WeaponType.gun).transform.parent = _player.transform.Find("hand");
+        _player = GameManager.Instance._player.InstantiateHero(false,_playerPosition);
     }
 }

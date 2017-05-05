@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour {
 
     void Awake()
     {
-
         _player = new Player();
+        _player._info = Saver.Read();
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
         _scene = GameObject.Find("SceneManager").GetComponent<SceneManager>();
@@ -42,5 +42,10 @@ public class GameManager : MonoBehaviour {
     public void ShowError(MyException ex)
     {
         MessageBox("Error", "Error: "+ex._exceptionId);
+    }
+
+    public void Save()
+    {
+        Saver.Save(_player._info);
     }
 }

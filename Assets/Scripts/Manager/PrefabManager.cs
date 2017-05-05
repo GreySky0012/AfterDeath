@@ -12,6 +12,7 @@ public class PrefabManager : MonoBehaviour {
     public GameObject _scene_ui;
     public GameObject[] _weapons;
     public GameObject _text_getitem;
+    public GameObject _buffTemplet;
 
     private void Awake()
     {

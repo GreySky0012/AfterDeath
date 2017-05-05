@@ -21,28 +21,27 @@ public class Player{
         }
     }
 
-	public Player(){
+	public Player()
+    {
         _info = new PlayerInfo();
 	}
 
-	public PlayerController InstantiateHero(Vector3 position)
+	public PlayerController InstantiateHero(bool fireable,Vector3 position)
 	{
-		GameObject hero = Camera.Instantiate (PrefabManager.Instance._hero);
+		PlayerController player = PlayerFactory.CreatePlayer(_info,fireable);
 
-        InitHero(hero,position);
+        InitHero(player,position);
 
-		return hero.GetComponent<PlayerController> ();
+		return player;
 	}
 
     /// <summary>
     /// init the hero object
     /// </summary>
-    private void InitHero(GameObject hero,Vector3 position)
+    private void InitHero(PlayerController player,Vector3 position)
     {
-        hero.transform.position = position;
+        player.transform.position = position;
 
-        PlayerController controller = hero.GetComponent<PlayerController>();
-
-        controller._bag = new Bag(_info._bag);
+        player._bag = new Bag(_info._bag);
     }
 }
