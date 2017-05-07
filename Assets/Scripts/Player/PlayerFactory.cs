@@ -15,5 +15,6 @@ public class PlayerFactory
     private static void CreateWeapon(PlayerController player,Weapon.WeaponType type)
     {
         player._weapon = Camera.Instantiate(PrefabManager.Instance._weapons[(int)type], player.transform.Find("hand").position, Quaternion.identity).GetComponent<Weapon>();
+        player._weapon.transform.parent = player.transform;
     }
 }

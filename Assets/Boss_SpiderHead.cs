@@ -21,7 +21,6 @@ public class Boss_SpiderHead : BossController
         Rotate();
 
         verticalSpeed -= a * Time.deltaTime;
-
     }
 
     void Move()
@@ -33,5 +32,4 @@ public class Boss_SpiderHead : BossController
     {
         transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
     }
-
 }

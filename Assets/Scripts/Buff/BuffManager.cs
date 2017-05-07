@@ -10,6 +10,16 @@ public class BuffManager : Checker{
 
     public void CreateBuff(Buff.BuffType type,float existTime)
     {
+        foreach (AutoReduce buff in _buffs)
+        {
+            if (buff._buff._buffType == type)
+            {
+                existTime = buff._restTime > existTime ? buff._restTime : existTime;
+                RemoveBuff(buff);
+                break;
+            }
+        }
+
         switch (type)
         {
             case Buff.BuffType.slow:
@@ -27,16 +37,20 @@ public class BuffManager : Checker{
     void InstantiateBuff(Buff buff)
     {
         AutoReduce b = Camera.Instantiate(PrefabManager.Instance._buffTemplet).GetComponent<AutoReduce>();
+        GameManager.Instance._scene.AddObjectToUI(b.gameObject);
         b.Init(buff);
         _buffs.Add(b);
     }
 
     /// <summary>
-    /// set the buff icons into the right position
+    /// reset the buff icons into the right position
     /// </summary>
     public void CheckBuffs()
     {
-
+        for(int i = 0;i<_buffs.Count;i++)
+        {
+            ((SceneManagerFight)GameManager.Instance._scene).SetBuffPosition(_buffs[i], i);
+        }
     }
 
     #region traversal the buffs to play a part

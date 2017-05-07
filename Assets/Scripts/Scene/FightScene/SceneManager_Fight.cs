@@ -12,8 +12,6 @@ public class SceneManagerFight : SceneManager
     [HideInInspector]
 	public BossController _boss;
     [HideInInspector]
-    public GameObject _ui;
-    [HideInInspector]
     public GameObject _itemPrefab;
 
 	/// <summary>
@@ -28,7 +26,10 @@ public class SceneManagerFight : SceneManager
 	public Vector3 _bossPostion;
     public Dictionary<Vector3, CommonData.ResourceType> _resourceList = new Dictionary<Vector3, CommonData.ResourceType>();
     [HideInInspector]
-    public Transform _itemPos;
+    public Transform _itemPos;//the position of the item get text
+    [HideInInspector]
+    public Transform _buffPos;//the position of the buff icon
+    public float _buffSize;//the size of the buff icon
 
     public void Awake()
     {
@@ -38,6 +39,7 @@ public class SceneManagerFight : SceneManager
 
     public void Start()
     {
+        _buffSize = 45f;
         _itemPrefab = PrefabManager.Instance._text_getitem;
     }
 
@@ -74,6 +76,7 @@ public class SceneManagerFight : SceneManager
         _player._weapon._overHeatSlider = _ui.transform.Find("WeaponBar").Find("Slider").GetComponent<Slider>();
         _player._weapon._overHeatSlider.maxValue = _player._weapon._overHeatMax;
         _itemPos = _ui.transform.Find("TextPosition");
+        _buffPos = _ui.transform.Find("BuffPosition");
     }
 
     /// <summary>
@@ -89,8 +92,8 @@ public class SceneManagerFight : SceneManager
         go.GetComponent<GetItemText>().UpdateText(content);
     }
 
-    public void AddBuff(Buff.BuffType type)
+    public void SetBuffPosition(AutoReduce buff,int index)
     {
-
+        buff.transform.position = _buffPos.transform.position + new Vector3(index * _buffSize, 0f, 0f);
     }
 }

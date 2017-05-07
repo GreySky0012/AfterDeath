@@ -5,55 +5,43 @@ using System.Collections;
 public class AutoReduce : MonoBehaviour {
 
     public Slider _slider;
-    private Buff _buff;
+    private PlayerController _player;
+    private SceneManagerFight _scene;
+    public float _restTime;
 
-    private GameObject _player;
+    public Buff _buff;
 
-    void Awake()
+    public Image _backImage;
+    public Image _forntImage;
+
+    void Start()
     {
         _slider = GetComponentInChildren<Slider>();
-        _buff = GetComponent<Buff>();
-        _player = GameObject.FindGameObjectWithTag(Tags.player);
+        _scene = GameManager.Instance._scene as SceneManagerFight;
+        _player = _scene._player;
     }
 
-	void Update () {
-        _slider.value -= (_slider.maxValue / _buff._existTime) * Time.deltaTime;
-        if(_slider.value <= 0)
-        {
-            DestroyBuffIcon(true);
-        }
-	}
-
-    public void DestroyBuffIcon(bool isAuto)
+    void Update()
     {
-        GameObject[] buffs = GameObject.FindGameObjectsWithTag(Tags.buffIcon);
-        foreach(GameObject buff in buffs)
+        _restTime -= Time.deltaTime;
+        if (_restTime <= 0)
         {
-            if(buff.transform.position.x > transform.position.x)
-            {
-                buff.transform.position -= new Vector3(45f, 0);
-            }
+            DestroyBuff();
         }
+        else
+            _slider.value = _restTime / _buff._existTime*_slider.maxValue;
+    }
 
-        switch(_buff._buffType)
-        {
-            case Buff.BuffType.spiderWeb:
-                //PlayerData.Instance._moveSpeed += PlayerData.Instance._moveSpeed_origin * 0.5f;
-                break;
-            case Buff.BuffType.slow:
-                //PlayerData.Instance._moveSpeed *= 1f / 0.6f;
-                //PlayerData.Instance._jumpForce *= 1f / 0.6f;
-                break;
-            case Buff.BuffType.doubleJumpCD:
-                _player.GetComponent<DoubleJump>()._isDoubleJumping = false;
-                break;
-            default:
-                break;
-        }
+    public void Init(Buff buff)
+    {
+        _buff = buff;
+        _restTime = buff._existTime;
+        _backImage.overrideSprite = _forntImage.overrideSprite = _buff._iconSprite;
+    }
 
-        if(isAuto)
-            //GameManager.Instance.buffList.RemoveAt(GameManager.Instance.CheckBuff(_buff._buffType));
-
+    public void DestroyBuff()
+    {
+        _player._buffs.RemoveBuff(this);
         Destroy(gameObject);
     }
 }

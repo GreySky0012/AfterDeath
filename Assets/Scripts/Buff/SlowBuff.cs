@@ -7,6 +7,7 @@ public class SlowBuff : Buff {
     public SlowBuff(float existTime):base(existTime)
     {
         _buffType = BuffType.slow;
+        _iconSprite = Resources.Load("Pictures/Player/icon_slow", typeof(Sprite)) as Sprite;
     }
 
     public override bool CheckMove()

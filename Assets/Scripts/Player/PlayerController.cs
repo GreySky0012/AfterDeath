@@ -31,8 +31,6 @@ public class PlayerController : Feature {
         }
     }
 
-	public enum state{ stay, move, jump, picking }
-
     #region state of the hero
     public PlayerState _state;//now state of hero
     [HideInInspector]
@@ -76,6 +74,7 @@ public class PlayerController : Feature {
         _playerData = new Data();
         _origin_data = new Data();
         _state = new StayState(this);
+        _buffs = new BuffManager();
     }
 
 	// Use this for initialization
@@ -341,6 +340,10 @@ public class PlayerController : Feature {
         {
             _state.ActionStopPick();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            AddBuff(Buff.BuffType.slow, 1);
+        }
 	}
 
 	/// <summary>
@@ -385,6 +388,16 @@ public class PlayerController : Feature {
     }
     #endregion
 
+    public void AddBuff(Buff.BuffType type,float existTime)
+    {
+        _buffs.CreateBuff(type, existTime);
+    }
+
+    public override void Death()
+    {
+        Destroy(this);
+    }
+
     void SetGetControlToTrue()
     {
 		_controllable = true;
@@ -414,11 +427,6 @@ public class PlayerController : Feature {
             yield return new WaitForSeconds(0.01f);
         }
         _hpSlider.value = nowHp;
-    }
-
-    public override void Death()
-    {
-        Destroy(this);
     }
 
     #region deal with the collision of the player
