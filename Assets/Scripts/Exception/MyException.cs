@@ -4,7 +4,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 [Serializable]
 public class MyException : ApplicationException
 {
-
     public int _exceptionLevel;
     public int _exceptionId;
 

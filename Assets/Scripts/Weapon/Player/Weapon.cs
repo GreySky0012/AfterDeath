@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour {
 
-    public enum WeaponType { gun };
+    public enum Type { gun };
 
     /// <summary>
     /// some data for calculation.

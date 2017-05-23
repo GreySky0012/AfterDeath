@@ -29,4 +29,6 @@ public abstract class Buff : Checker {
     public abstract void CalPlayerData(PlayerController.Data playerData_origin,PlayerController.Data playerData);
 
     public abstract void CalBullet(PlayerBullet bullet);
+
+    public abstract void BUffUpdate(PlayerController.Data player);
 }

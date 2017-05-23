@@ -23,7 +23,7 @@ public class Player{
 
 	public Player()
     {
-        _info = new PlayerInfo();
+        _info = Saver.Read();
 	}
 
 	public PlayerController InstantiateHero(bool fireable,Vector3 position)
@@ -35,13 +35,18 @@ public class Player{
 		return player;
 	}
 
+    public void ResetInfo(PlayerInfo info)
+    {
+        _info.Init(info);
+        GameManager.Instance.Save();
+    }
+
     /// <summary>
     /// init the hero object
     /// </summary>
     private void InitHero(PlayerController player,Vector3 position)
     {
         player.transform.position = position;
-
-        player._bag = new Bag(_info._bag);
+        player._info = new PlayerInfo(_info);
     }
 }

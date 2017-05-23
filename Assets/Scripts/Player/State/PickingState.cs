@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PickingState : PlayerState
 {
-    public PickingState(PlayerController context) : base(context) { }
+    public PickingState(PlayerController context) : base(context) { _type = Type.picking; }
 
     public override void ActionDizzy(float time)
     {

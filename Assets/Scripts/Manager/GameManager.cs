@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour {
     void Awake()
     {
         _player = new Player();
-        _player._info = Saver.Read();
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
         _scene = GameObject.Find("SceneManager").GetComponent<SceneManager>();

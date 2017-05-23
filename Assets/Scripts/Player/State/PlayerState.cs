@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class PlayerState{
 
+    public enum Type { stay, jump, picking };
+
+    public Type _type;
     public PlayerController _context;
 
     public PlayerState(PlayerController context)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StayState : PlayerState {
-    public StayState(PlayerController context) : base(context) { }
+    public StayState(PlayerController context) : base(context) { _type = Type.stay; }
 
     public override void ActionDizzy(float time)
     {

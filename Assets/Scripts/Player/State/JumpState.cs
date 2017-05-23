@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class JumpState : PlayerState
 {
-    public JumpState(PlayerController context) : base(context) { }
+    public JumpState(PlayerController context) : base(context) { _type = Type.jump; }
 
     public override void ActionDizzy(float time)
     {

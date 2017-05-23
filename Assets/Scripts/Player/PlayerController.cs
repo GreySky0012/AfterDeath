@@ -11,13 +11,10 @@ public class PlayerController : Feature {
 
     public struct Data
     {
-        public float _damage;
         public float _defence;
         public float _moveSpeed;
         public float _jumpForce;
         public float _repulseRate;
-        public float _overHeatMax;
-        public float _fireRate;
         public float _collectionTime;//The time of each collection
         public float _invicibleTimeRate;
 
@@ -26,6 +23,7 @@ public class PlayerController : Feature {
             _defence = PlayerData.Instance._defence_origin;
             _moveSpeed = PlayerData.Instance._moveSpeed_origin;
             _jumpForce = PlayerData.Instance._jumpForce_origin;
+            _repulseRate = PlayerData.Instance._repulseRate_origin;
             _collectionTime = PlayerData.Instance._collectionTime_origin;
             _invicibleTimeRate = PlayerData.Instance._invicibleTimeRate_origin;
         }
@@ -62,8 +60,9 @@ public class PlayerController : Feature {
     #region the data of player
     public Data _playerData;
     public Data _origin_data { private set; get; }
-    public Bag _bag;
+    public PlayerInfo _info;
     public BuffManager _buffs;
+    public TechManager _techs;
     [HideInInspector]
     public Weapon _weapon;//The controller of the gun
     #endregion
@@ -80,8 +79,11 @@ public class PlayerController : Feature {
 	// Use this for initialization
 	void Start ()
     {
+        _techs = new TechManager(_info._techs);
         _scale = transform.localScale;
         _playerData.Init();
+        _origin_data.Init();
+        _techs.CalPlayerDate(_origin_data, _playerData);
         _maxHealth = PlayerData.Instance._maxHealth_origin;
         _health = _maxHealth;
 	}
@@ -95,11 +97,13 @@ public class PlayerController : Feature {
                 PickResource();
                 _collectionTime = 0;
             }
-		}
-		ListenKeyboard ();
-        ListenMouse();
+        }
+        _techs.TechsUpdate(this);
         _buffs.CheckBuffs();
+        _buffs.BuffsUpdate(_playerData);
         _hpText.text = _health.ToString() + "/" + _maxHealth;
+        ListenKeyboard();
+        ListenMouse();
 	}
     #endregion
 
@@ -287,7 +291,7 @@ public class PlayerController : Feature {
 	{
         CommonData.ResourceType type = _nowTouching._type;
 		int num = _nowTouching.Collect (this);
-        _bag.AddResource(type,num);
+        _info._bag.AddResource(type,num);
         ((SceneManagerFight)GameManager.Instance._scene).GetItem((int)type, num);
     }
 
@@ -317,15 +321,15 @@ public class PlayerController : Feature {
     /// </summary>
     void ListenKeyboard()
 	{
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetAxis("Horizontal") < 0)
         {
             _state.ActionMove(true);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetAxis("Horizontal") > 0)
         {
             _state.ActionMove(false);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Jump"))
         {
             _state.ActionJump();
         }
@@ -339,10 +343,6 @@ public class PlayerController : Feature {
         if (Input.GetKeyUp(KeyCode.E))
         {
             _state.ActionStopPick();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            AddBuff(Buff.BuffType.slow, 1);
         }
 	}
 

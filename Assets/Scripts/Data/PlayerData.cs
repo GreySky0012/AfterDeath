@@ -17,29 +17,25 @@ public class PlayerData
     }
 
     public float _maxHealth_origin { get; private set; }
-    public float _health_origin { get; private set; }
     public float _defence_origin { get; private set; }
     public float _moveSpeed_origin { get; private set; }
     public float _jumpForce_origin { get; private set; }
+    public float _repulseRate_origin { get; private set; }
 	public float _collectionTime_origin{ get; private set; }
     public float _invicibleTimeRate_origin { get; private set; }
-    public Weapon.WeaponType _weapon_origin { get; private set; }
 
     private PlayerData()
     {
-		ReadData ();
+		SetData ();
     }
 
-	public void ReadData()
+	public void SetData()
 	{
-        //read play attribute from xml
-
-        //for test
-        _weapon_origin = Weapon.WeaponType.gun;
 		_maxHealth_origin = 100f;
 		_defence_origin = 1f;
 		_moveSpeed_origin = 0.12f;
 		_jumpForce_origin = 750f;
+        _repulseRate_origin = 1f;
 		_collectionTime_origin = 2f;
         _invicibleTimeRate_origin = 1f;
     }

@@ -26,4 +26,6 @@ public class SlowBuff : Buff {
     }
 
     public override void CalBullet(PlayerBullet bullet) { }
+
+    public override void BUffUpdate(PlayerController.Data player) { }
 }

@@ -105,5 +105,13 @@ public class BuffManager : Checker{
             b._buff.CalBullet(bullet);
         }
     }
+
+    public void BuffsUpdate(PlayerController.Data player)
+    {
+        foreach (AutoReduce b in _buffs)
+        {
+            b._buff.BUffUpdate(player);
+        }
+    }
     #endregion
 }
