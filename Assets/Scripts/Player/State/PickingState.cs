@@ -9,14 +9,14 @@ public class PickingState : PlayerState
 
     public override void ActionDizzy(float time)
     {
-        _context.stopPickResource();
+        _context.StopPickResource();
         _context.dizzy(time);
         _context._state = new StayState(_context);
     }
 
     public override void ActionExitResource()
     {
-        _context.stopPickResource();
+        _context.exitResource();
         _context._state = new StayState(_context);
     }
 
@@ -42,7 +42,7 @@ public class PickingState : PlayerState
 
     public override void ActionRepel(Vector3 attackerPos, Vector3 repelForce)
     {
-        _context.stopPickResource();
+        _context.StopPickResource();
         _context._state = new JumpState(_context);
     }
 
@@ -58,7 +58,6 @@ public class PickingState : PlayerState
 
     public override void ActionStopPick()
     {
-        _context.stopPickResource();
         _context._state = new StayState(_context);
     }
 

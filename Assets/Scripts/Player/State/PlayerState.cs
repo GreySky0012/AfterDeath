@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// the state of the player,deal all actions of the player
+/// the different state can behave differently in front of different actions
+/// </summary>
 public abstract class PlayerState{
 
     public enum Type { stay, jump, picking };

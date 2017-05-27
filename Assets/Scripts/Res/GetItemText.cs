@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// show the text when picking something up
+/// </summary>
 public class GetItemText : MonoBehaviour {
 
     private  Text _text;
@@ -20,7 +23,7 @@ public class GetItemText : MonoBehaviour {
     }
 
     /// <summary>
-    /// 更新文本
+    /// set the text
     /// </summary>
     /// <param name="content"></param>
     public void UpdateText(string content)

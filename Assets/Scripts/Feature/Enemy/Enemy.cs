@@ -2,23 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// the monster feature
+/// attack the player by collisions
+/// </summary>
 public class Enemy : Feature {
 
     public float _attack;
     public Vector3 _repelForce;
-
-    public void TakeDamage(float damage)
-    {
-        _health -= damage;
-
-        if (_health <= 0)
-        {
-            Death();
-            return;
-        }
-
-        StartCoroutine(Blink(1.0f));
-    }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

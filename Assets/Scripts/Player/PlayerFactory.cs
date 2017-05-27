@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// produce the player instance
+/// now just the player and his weapon
+/// maybe the all parts of techs
+/// </summary>
 public class PlayerFactory
 {
     public static PlayerController CreatePlayer(PlayerInfo info,bool fireable)

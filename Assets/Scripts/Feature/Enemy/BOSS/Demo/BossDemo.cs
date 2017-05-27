@@ -45,6 +45,7 @@ public class BossDemo : BossController {
             StartCoroutine(ShootLazer());
         }
 	}
+
     void MoveSphere()
     {
         if (_bossMove)

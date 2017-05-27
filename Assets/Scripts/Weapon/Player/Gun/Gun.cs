@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Gun : Weapon {
-
     void Start()
     {
         base.Start();
@@ -11,11 +10,6 @@ public class Gun : Weapon {
         _fireRate = _fireRate_origin = 5f;
         _repulseRate_origin = 1f;
         _overHeatMax_origin = 100f;
+        _heatAdd_origin = 15f;
     }
-
-	// Update is called once per frame
-	void Update () {
-        base.Update();
-	}
-
 }

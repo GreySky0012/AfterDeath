@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// the scenes the player is fireable 
+/// </summary>
 public class SceneManagerFight : SceneManager
 {
 	/// <summary>
@@ -15,20 +18,20 @@ public class SceneManagerFight : SceneManager
     public GameObject _itemPrefab;
 
 	/// <summary>
-	/// The infomation of this checkpoint
+	/// The information of this checkpoint
 	/// </summary>
-	public int _checkPointId;//start from 1
-	public float _animTime = 0;//The time of the animation before fighting
+	public int _checkPointId;//start from 1(0 means demo)
 
 	/// <summary>
 	/// The positions of gameObjects.
 	/// </summary>
 	public Vector3 _bossPostion;
-    public Dictionary<Vector3, CommonData.ResourceType> _resourceList = new Dictionary<Vector3, CommonData.ResourceType>();
+    public Dictionary<Vector3, CommonData.ResourceType> _resourceList = new Dictionary<Vector3, CommonData.ResourceType>();//the resrouces in this scene
     [HideInInspector]
-    public Transform _itemPos;//the position of the item get text
+    public Transform _itemPos;//the position of the item getting text
     [HideInInspector]
     public Transform _buffPos;//the position of the buff icon
+    [HideInInspector]
     public float _buffSize;//the size of the buff icon
 
     public void Awake()
@@ -49,24 +52,29 @@ public class SceneManagerFight : SceneManager
         InstantiateBoss();
     }
 
-	protected void AwakeFight()
-	{
-		_player._controllable = true;
-		_boss.Active ();
-	}
-
 	void InstantiateBoss()
 	{
 		_boss = Camera.Instantiate (PrefabManager._instance._BossPrefab [_checkPointId]).GetComponent<BossController> ();
 	}
 
     /// <summary>
-    /// show the endding of this scene
+    /// show the win scene
     /// </summary>
-    public void BossDeath()
+    public void Win()
     {
     }
 
+    /// <summary>
+    /// show the lose scene
+    /// </summary>
+    public void Lose()
+    {
+
+    }
+
+    /// <summary>
+    /// instantiate the player and set some reference
+    /// </summary>
     override protected void InstantiateHero()
     {
         _player = GameManager.Instance._player.InstantiateHero(true, _playerPosition);
@@ -80,10 +88,10 @@ public class SceneManagerFight : SceneManager
     }
 
     /// <summary>
-    /// 获得物品
+    /// get some resources
     /// </summary>
-    /// <param name="id">物品id</param>
-    /// <param name="num">物品数量</param>
+    /// <param name="id">resource id</param>
+    /// <param name="num">resource number</param>
     public void GetItem(int id, int num)
     {
         string content = CommonData.Instance._resList[(CommonData.ResourceType)id]._name + "+" + num.ToString();
@@ -92,6 +100,11 @@ public class SceneManagerFight : SceneManager
         go.GetComponent<GetItemText>().UpdateText(content);
     }
 
+    /// <summary>
+    /// reset the buff's position
+    /// </summary>
+    /// <param name="buff"></param>
+    /// <param name="index">the index of this buff in the buff manager</param>
     public void SetBuffPosition(AutoReduce buff,int index)
     {
         buff.transform.position = _buffPos.transform.position + new Vector3(index * _buffSize, 0f, 0f);

@@ -3,15 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 
 /// <summary>
-/// Hero controller.
+/// player logic
 /// </summary>
 /// author:Alex
-
 public class PlayerController : Feature {
 
     public struct Data
     {
-        public float _defence;
+        public float _defense;
         public float _moveSpeed;
         public float _jumpForce;
         public float _repulseRate;
@@ -20,12 +19,22 @@ public class PlayerController : Feature {
 
         public void Init()
         {
-            _defence = PlayerData.Instance._defence_origin;
+            _defense = PlayerData.Instance._defense_origin;
             _moveSpeed = PlayerData.Instance._moveSpeed_origin;
             _jumpForce = PlayerData.Instance._jumpForce_origin;
             _repulseRate = PlayerData.Instance._repulseRate_origin;
             _collectionTime = PlayerData.Instance._collectionTime_origin;
             _invicibleTimeRate = PlayerData.Instance._invicibleTimeRate_origin;
+        }
+
+        public void Set(Data date)
+        {
+            _defense = date._defense;
+            _moveSpeed = date._moveSpeed;
+            _jumpForce = date._jumpForce;
+            _repulseRate = date._repulseRate;
+            _collectionTime = date._collectionTime;
+            _invicibleTimeRate = date._invicibleTimeRate;
         }
     }
 
@@ -36,11 +45,9 @@ public class PlayerController : Feature {
     [HideInInspector]
 	public bool _controllable = true;//is the hero controllable
     [HideInInspector]
-    public bool _fireable = true;
+    public bool _fireable = true;//is the player fireable in this scene
 	[HideInInspector]
     public bool _isTouchingResource = false;//is the hero touching some resources
-    [HideInInspector]
-    public bool _picking = false;//is the hero picking resources
     [HideInInspector]
     public bool _invicible = false;
     #endregion
@@ -84,13 +91,13 @@ public class PlayerController : Feature {
         _playerData.Init();
         _origin_data.Init();
         _techs.CalPlayerDate(_origin_data, _playerData);
-        _maxHealth = PlayerData.Instance._maxHealth_origin;
+        _maxHealth = 100f;
         _health = _maxHealth;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (_picking) {
+		if (_state._type == PlayerState.Type.picking) {
             _collectionTime += Time.deltaTime;
             if (_collectionTime > _playerData._collectionTime)
             {
@@ -98,10 +105,13 @@ public class PlayerController : Feature {
                 _collectionTime = 0;
             }
         }
+
+        //techs must be calculated before than buffs
         _techs.TechsUpdate(this);
         _buffs.CheckBuffs();
         _buffs.BuffsUpdate(_playerData);
-        _hpText.text = _health.ToString() + "/" + _maxHealth;
+        _buffs.CalWeapon(_weapon);
+
         ListenKeyboard();
         ListenMouse();
 	}
@@ -178,6 +188,24 @@ public class PlayerController : Feature {
 	{
         _state = new StayState(this);
 	}
+
+    public void StartPickResource()
+    {
+        _state.ActionStartPick();
+    }
+
+    public void StopPickResource()
+    {
+        _state.ActionStopPick();
+    }
+
+    /// <summary>
+    /// Exits the resource.
+    /// </summary>
+    public void ExitResource()
+    {
+        _state.ActionExitResource();
+    }
     #endregion
 
     #region actions called by player states
@@ -238,7 +266,9 @@ public class PlayerController : Feature {
     {
         _invicible = true;
 
-        _health -= calcuDamage(damage);
+        _health -= CalDamage(damage);
+        _hpText.text = _health.ToString() + "/" + _maxHealth;
+
         if (_health <= 0)
         {
             StartCoroutine(ReduceHp(0));
@@ -262,57 +292,47 @@ public class PlayerController : Feature {
 
         Invoke("SetGetControlToTrue", 0.2f);
     }
+
+    /// <summary>
+    /// Start to pick up resource.
+    /// </summary>
+    public void startPickResource()
+    {
+        _collectionTime = 0;
+    }
+
+    /// <summary>
+    /// Exits the resource.
+    /// </summary>
+    public void exitResource()
+    {
+        _state.ActionStopPick();
+        _isTouchingResource = false;
+        _nowTouching = null;
+    }
     #endregion
 
     #region resource operation
     /// <summary>
-	/// Touchs the resource.
+	/// Touch the resource.
 	/// </summary>
 	/// <param name="resource">the touching resource.</param>
-	void TouchResource(ResourceController resource)
+	private void TouchResource(ResourceController resource)
 	{
 		_isTouchingResource = true;
 		_nowTouching = resource;
 	}
 
 	/// <summary>
-	/// Starts to pick up resource.
-	/// </summary>
-	public void startPickResource()
-    {
-        _picking = true;
-        _collectionTime = 0;
-    }
-
-	/// <summary>
 	/// Picking the resource.
 	/// </summary>
-	void PickResource()
+	private void PickResource()
 	{
         CommonData.ResourceType type = _nowTouching._type;
 		int num = _nowTouching.Collect (this);
         _info._bag.AddResource(type,num);
         ((SceneManagerFight)GameManager.Instance._scene).GetItem((int)type, num);
     }
-
-	/// <summary>
-	/// Stops picking resource.
-	/// </summary>
-	public void stopPickResource()
-	{
-        _picking = false;
-        _controllable = true;
-	}
-
-	/// <summary>
-	/// Exits the resource.
-	/// </summary>
-	public void ExitResource()
-	{
-		stopPickResource ();
-		_isTouchingResource = false;
-		_nowTouching = null;
-	}
     #endregion
 
     #region listen to the player input
@@ -335,14 +355,11 @@ public class PlayerController : Feature {
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-			if (_isTouchingResource)
-            {
-                _state.ActionStartPick();
-            }
+			StartPickResource();
         }
         if (Input.GetKeyUp(KeyCode.E))
         {
-            _state.ActionStopPick();
+            StopPickResource();
         }
 	}
 
@@ -363,7 +380,7 @@ public class PlayerController : Feature {
 	/// </summary>
 	void HandleMousePosition(Vector3 mousePosition)
 	{
-        if (_picking)
+        if (!_fireable || _state._type == PlayerState.Type.picking)
             return;
 		_state.ActionTurnTo (((mousePosition.x - transform.position.x) < 0) ? true : false);
 		_weapon.RotateToMouse (mousePosition);
@@ -404,13 +421,13 @@ public class PlayerController : Feature {
     }
 
     /// <summary>
-    /// calculate the real damage with the defence
+    /// calculate the real damage with the defense
     /// </summary>
     /// <param name="damage"></param>
     /// <returns></returns>
-    float calcuDamage(float damage)
+    float CalDamage(float damage)
     {
-        float real_damage = damage * _playerData._defence;
+        float real_damage = damage * _playerData._defense;
         return real_damage;
     }
 

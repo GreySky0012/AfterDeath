@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// hold references of prefabs
+/// </summary>
 public class PrefabManager : MonoBehaviour {
 
 	public static PrefabManager _instance;
@@ -18,13 +21,4 @@ public class PrefabManager : MonoBehaviour {
     {
         _instance = this;
     }
-
-    // Use this for initialization
-    void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

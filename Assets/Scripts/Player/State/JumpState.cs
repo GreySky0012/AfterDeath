@@ -14,7 +14,7 @@ public class JumpState : PlayerState
 
     public override void ActionExitResource()
     {
-        
+        _context.exitResource();
     }
 
     public override void ActionHurt(float damage, float invicibleTime)

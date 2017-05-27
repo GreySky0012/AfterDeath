@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// manager of the techs(under the player controller,not contain the weapon)
+/// </summary>
 public class TechManager {
     private HeadTech _head;
     private FootTech _foot;
@@ -15,6 +18,10 @@ public class TechManager {
         }
     }
 
+    /// <summary>
+    /// get the techs which are not null
+    /// </summary>
+    /// <returns></returns>
     public ArrayList GetTechs()
     {
         ArrayList techs = new ArrayList();
@@ -27,6 +34,10 @@ public class TechManager {
         return techs;
     }
 
+    /// <summary>
+    /// switch to string to save
+    /// </summary>
+    /// <returns></returns>
     public string[] ToString()
     {
         string[] strings = new string[4];

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// the class of a player
+/// the player of the game system(not for the scene)
 /// </summary>
 public class Player{
 
-    public PlayerInfo _info;
+    public PlayerInfo _info;//the info keeping in line with the local file 
     private static Player _instance = null;
     public static Player Instance
     {
@@ -21,11 +21,20 @@ public class Player{
         }
     }
 
+    /// <summary>
+    /// read inform from the local file when the player instantiate
+    /// </summary>
 	public Player()
     {
         _info = Saver.Read();
 	}
 
+    /// <summary>
+    /// instantiate the player into the scene
+    /// </summary>
+    /// <param name="fireable">is the scene fireable</param>
+    /// <param name="position"></param>
+    /// <returns></returns>
 	public PlayerController InstantiateHero(bool fireable,Vector3 position)
 	{
 		PlayerController player = PlayerFactory.CreatePlayer(_info,fireable);
@@ -35,6 +44,10 @@ public class Player{
 		return player;
 	}
 
+    /// <summary>
+    /// when the info of the player change reset the info and save it into the local file
+    /// </summary>
+    /// <param name="info"></param>
     public void ResetInfo(PlayerInfo info)
     {
         _info.Init(info);

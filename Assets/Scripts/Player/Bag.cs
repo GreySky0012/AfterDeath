@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bag{
     
-    public int[] _collections;
+    public int[] _collections;//the resources already owned
 
     public Bag()
     {
@@ -23,6 +23,11 @@ public class Bag{
         _collections = (int[])collection.Clone();
     }
 
+    /// <summary>
+    /// get some resources
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="num"></param>
     public void AddResource(CommonData.ResourceType type,int num)
     {
         _collections[(int)type] += num;

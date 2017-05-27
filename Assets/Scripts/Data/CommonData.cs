@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// the data unrelated to player
+/// </summary>
 public class CommonData
 {
 	public enum ResourceType { JinShuCanHai, WaSi, ShiYou, KuangShi, LieYanShi, MingJieHua, HuXiaoShi };
@@ -10,7 +13,8 @@ public class CommonData
 
 	private static CommonData _instance;
 	public static CommonData Instance
-	{ get
+	{ 
+        get
 		{
 			if (_instance == null) {
 				_instance = new CommonData ();
@@ -25,10 +29,11 @@ public class CommonData
 	}
 
 	/// <summary>
-	/// 加载所有资源信息
+	/// load the resource information
 	/// </summary>
 	void LoadResourceInfo()
 	{
+        //缺少资源图片
         /*ResourceInfo jinshucanhai = new ResourceInfo("金属残骸", "no", 5, 10 , 100 , ResourceManager.Instance._images[0]);
         ResourceInfo shiyou = new ResourceInfo("石油", "no", 5, 10, -1, ResourceManager.Instance._images[1]);
         ResourceInfo wasi = new ResourceInfo("瓦斯", "no", 5, 10, -1, ResourceManager.Instance._images[2]);

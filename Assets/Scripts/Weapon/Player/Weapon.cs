@@ -21,12 +21,15 @@ public class Weapon : MonoBehaviour {
     public Transform _spawnPos;
     public AudioClip _shootClip;
 
+    public float _heatAdd_origin;
     public float _bulletSpeed_origin;
     public float _repulseRate_origin;
     public float _overHeatMax_origin;
     public float _fireRate_origin;
     public float _damage_origin;
 
+    [HideInInspector]
+    public float _heatAdd;
     [HideInInspector]
     public float _damage;
     [HideInInspector]
@@ -41,7 +44,7 @@ public class Weapon : MonoBehaviour {
 	// Use this for initialization
     protected void Start()
     {
-        CalData();
+        Init();
         _overHeatSlider.maxValue = _overHeatMax;
 	}
 	
@@ -56,13 +59,17 @@ public class Weapon : MonoBehaviour {
         ReduceHeat();
 	}
 
-    void CalData()
+    /// <summary>
+    /// reset the date of the weapon
+    /// </summary>
+    public void Init()
     {
         _damage = _damage_origin;
         _bulletSpeed = _bulletSpeed_origin;
         _fireRate = _fireRate_origin;
         _repulseRate = _repulseRate_origin;
         _overHeatMax = _overHeatMax_origin;
+        _heatAdd = _heatAdd_origin;
     }
 
     /// <summary>
@@ -76,7 +83,7 @@ public class Weapon : MonoBehaviour {
         if (!_overHeated)
         {
             _firingInterval = 1 / _fireRate;
-            _overHeatSlider.value += 15f;
+            _overHeatSlider.value += _heatAdd;
             _shotCD = _firingInterval;
             if (_overHeatSlider.value >= _overHeatSlider.maxValue)
             {

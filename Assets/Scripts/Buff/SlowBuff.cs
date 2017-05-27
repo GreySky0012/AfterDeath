@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// the specific slow buff
+/// </summary>
 public class SlowBuff : Buff {
 
     public SlowBuff(float existTime):base(existTime)
@@ -22,10 +25,10 @@ public class SlowBuff : Buff {
 
     public override void CalPlayerData(PlayerController.Data playerData_origin, PlayerController.Data playerData)
     {
-        playerData._moveSpeed = playerData_origin._moveSpeed / 2;
+        playerData._moveSpeed = playerData._moveSpeed / 2;
     }
 
-    public override void CalBullet(PlayerBullet bullet) { }
+    public override void CalWeapon(Weapon weapon) { }
 
-    public override void BUffUpdate(PlayerController.Data player) { }
+    public override void BuffUpdate(PlayerController.Data player) { }
 }

@@ -2,21 +2,26 @@
 using UnityEngine.UI;
 using System.Collections;
 
+/// <summary>
+/// The buffs icon interface script
+/// </summary>
 public class AutoReduce : MonoBehaviour {
 
-    public Slider _slider;
     private PlayerController _player;
-    private SceneManagerFight _scene;
-    public float _restTime;
+    private SceneManagerFight _scene;//the scene where the buff exist
+    public float _restTime;//the rest time of this buff
 
-    public Buff _buff;
+    public Buff _buff;//the buff logic
 
+    /// <summary>
+    /// some references of the buff interface
+    /// </summary>
+    public Slider _slider;
     public Image _backImage;
     public Image _forntImage;
 
-    void Start()
+    void Awake()
     {
-        _slider = GetComponentInChildren<Slider>();
         _scene = GameManager.Instance._scene as SceneManagerFight;
         _player = _scene._player;
     }

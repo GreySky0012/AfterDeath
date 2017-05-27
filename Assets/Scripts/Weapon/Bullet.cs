@@ -14,6 +14,9 @@ public class Bullet : MonoBehaviour {
         GetComponent<Rigidbody2D>().velocity = vel;
     }
 
+    /// <summary>
+    /// show the flare
+    /// </summary>
     public void ShowParticleEffect()
     {
         GameObject go = Instantiate(_flarePrefab, transform.position, Quaternion.identity) as GameObject;

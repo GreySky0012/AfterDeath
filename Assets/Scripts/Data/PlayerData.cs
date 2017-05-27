@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-/// the common data of a player hero
+/// the origin data of a player
 /// </summary>
 public class PlayerData
 {
@@ -16,8 +16,7 @@ public class PlayerData
         }
     }
 
-    public float _maxHealth_origin { get; private set; }
-    public float _defence_origin { get; private set; }
+    public float _defense_origin { get; private set; }
     public float _moveSpeed_origin { get; private set; }
     public float _jumpForce_origin { get; private set; }
     public float _repulseRate_origin { get; private set; }
@@ -29,10 +28,12 @@ public class PlayerData
 		SetData ();
     }
 
+    /// <summary>
+    /// Init the origin data
+    /// </summary>
 	public void SetData()
 	{
-		_maxHealth_origin = 100f;
-		_defence_origin = 1f;
+		_defense_origin = 1f;
 		_moveSpeed_origin = 0.12f;
 		_jumpForce_origin = 750f;
         _repulseRate_origin = 1f;

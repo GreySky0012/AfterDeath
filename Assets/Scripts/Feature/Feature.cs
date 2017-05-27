@@ -6,6 +6,7 @@ public abstract class Feature : MonoBehaviour {
 
     [HideInInspector]
     public float _health;
+    [HideInInspector]
     public float _maxHealth;
 
     public void Start()
@@ -13,6 +14,28 @@ public abstract class Feature : MonoBehaviour {
         _health = _maxHealth;
     }
 
+    /// <summary>
+    /// be hurt
+    /// </summary>
+    /// <param name="damage"></param>
+    public void TakeDamage(float damage)
+    {
+        _health -= damage;
+
+        if (_health <= 0)
+        {
+            Death();
+            return;
+        }
+
+        StartCoroutine(Blink(1.0f));
+    }
+
+    /// <summary>
+    /// show the feature a blink effect
+    /// </summary>
+    /// <param name="blinkTime"></param>
+    /// <returns></returns>
     public IEnumerator Blink(float blinkTime)
     {
         int count = (int)(blinkTime / 0.1f);

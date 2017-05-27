@@ -22,6 +22,11 @@ public class PlayerInfo{
         Init(info);
     }
 
+    #region set the data of the info
+    /// <summary>
+    /// Init with another info
+    /// </summary>
+    /// <param name="info"></param>
     public void Init(PlayerInfo info)
     {
         _bag = new Bag(info._bag);
@@ -43,4 +48,5 @@ public class PlayerInfo{
     {
         _techOwn = techOwn;
     }
+    #endregion
 }
